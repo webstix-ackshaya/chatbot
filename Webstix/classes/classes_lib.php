@@ -24,13 +24,10 @@ class bot
 
     public function find_lookup($string)
     {
-
         include('db_config.php');
-
         //Check with lookup if keywords match
-        $sql= "SELECT Query FROM content_details WHERE Relative_ID=(select c_ID  from contents where c_name LIKE '$string')";
+        $sql= "SELECT Query FROM content_details WHERE Relative_ID='$string'";
         $result = $conn->query($sql);
-        
         if ($result->num_rows > 0) 
         {
             $xyz=" ";
@@ -39,29 +36,29 @@ class bot
             {
                 $st[$i] = $row;
                 $abc= $st[$i]['Query'];
-             
-                $xyz .= $abc;
+                $xyz = $abc;
                 echo $abc;
-                $i++;
-                $sql2="INSERT INTO chat_trans(Chat) VALUES ('$abc')";
-                $this->insert_query($sql2);
-            }
-            
-            return $xyz;
-          
+                $a=array();
+                array_push($a,$xyz);
 
+                $sql2="INSERT INTO chat_trans(Chat,Updated_by) VALUES ('$abc',1)";
+                $this->insert_query($sql2);
+                $i++;
+            }
+            return $abc;
+
+            
         } 
         else 
         {
             $st = '';
         }
-
     }
 
 
 
     //Function to serach and return all the content details acording to the button pressed by user 
-    public function lookup($string)
+   /*  public function lookup($string)
     {
 
         include('db_config.php');
@@ -90,13 +87,13 @@ class bot
         }
 
     }
-
+ */
 
     
 
 
     //Functiom to fetch the first options and return to user when they enter the chatbot.
-    public function init_contentdetails($str)
+   /*  public function init_contentdetails($str)
     {
         include('db_config.php');
 
@@ -125,7 +122,7 @@ class bot
         }
     }
 
-
+ */
 
 
     public function init()
@@ -160,7 +157,7 @@ class bot
     }
 
 
-
+/* 
     public function init_id()
     {
         include('db_config.php');
@@ -189,5 +186,6 @@ class bot
             $st = '';
         }
     
-    }
+    } */
 }
+?>
